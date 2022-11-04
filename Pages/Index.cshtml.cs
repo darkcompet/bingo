@@ -54,20 +54,21 @@ public class IndexModel : PageModel {
 			try {
 				// Lock a bingo
 				var rnd_bingo_id = await this.dbContext.bingos
-					.Where(m => m.is_used == false)
+					.Where(m => m.deleted_at == null)
 					.Select(m => m.id)
 					.OrderBy(m => Guid.NewGuid())
 					.FirstOrDefaultAsync()
 				;
 				var bingo = await this.dbContext.bingos
-					.FromSqlRaw($"SELECT * FROM [{DbConst.table_bingo}] WITH (UPDLOCK) WHERE [id] = {{0}} and [is_used] = {{1}}", rnd_bingo_id, false)
+					.FromSqlRaw($"SELECT * FROM [{DbConst.table_bingo}] WITH (UPDLOCK) WHERE [id] = {{0}}", rnd_bingo_id)
 					.FirstOrDefaultAsync();
 
-				if (bingo is null || bingo.is_used) {
+				if (bingo is null || bingo.deleted_at != null) {
 					return await CreateNewUserWithBingoCodeRecursively(uid, tryCount + 1);
 				}
 
-				bingo.is_used = true;
+				// Own this bingo code
+				bingo.deleted_at = DateTime.UtcNow;
 
 				var newUser = new UserModel() {
 					uid = uid,

@@ -17,13 +17,13 @@ public class UserModel : AutoGenerateUpdateTime {
 	[Column("uid", TypeName = "varchar(255)"), MaxLength(255)]
 	public string? uid { get; set; }
 
-	/// Bingo number
+	/// Bingo number which was assigned to this user.
 	[Column("bingo_code", TypeName = "varchar(255)"), MaxLength(255)]
 	public string? bingo_code { get; set; }
 
-	/// Indicate the user was choosed as winner.
-	[Column("winner_choosed_at")]
-	public DateTime? winner_choosed_at { get; set; }
+	/// When the bingo_code of this user was hit (at that time, user became to winner).
+	[Column("bingo_hit_at")]
+	public DateTime? bingo_hit_at { get; set; }
 
 	[Required]
 	[Column("created_at")]
