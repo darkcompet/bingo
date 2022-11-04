@@ -1,0 +1,21 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+	@{
+		if (Model.bingoCode != null)
+		{
+			<div>
+				<h4>Your bingo code is:</h4>
+				<h2>@Model.bingoCode</h2>
+			</div>
+		}
+		else
+		{
+			<p style="color: red;">Could not generate new bingo code. Please <a href=".">reload page</a> to try again</p>
+		}
+	}
+</div>

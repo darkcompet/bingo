@@ -1,0 +1,21 @@
+﻿@page
+@model NextWinner
+@{
+	ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+	@{
+		if (Model.winnerBingoCode != null)
+		{
+			<div>
+				<h4>Next winner's bingo code is:</h4>
+				<h2>@Model.winnerBingoCode</h2>
+			</div>
+		}
+		else
+		{
+			<p style="color: red;">No more winner to be generated.</p>
+		}
+	}
+</div>
